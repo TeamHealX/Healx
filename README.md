@@ -7,3 +7,4 @@ This is the local README file content.
 
 This is the remote README content pushed from GitHub.
 >>>>>>> ef44436... Initial commit
+# Deployment Trigger
