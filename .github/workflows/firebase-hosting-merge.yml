@@ -19,7 +19,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18 # 🔁 Match your Node.js version
+          node-version: 20 # ✅ Updated to fix Firebase CLI compatibility
 
       - name: Install Dependencies
         run: npm install
