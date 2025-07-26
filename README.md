@@ -121,6 +121,17 @@ npm start
 ```
 Open http://localhost:3000 in your browser.
 
+---
+
+## 📺 Demo Video
+
+🎥 Check out our demo video on YouTube to see HealX in action:  
+👉  Watch the Demo(https://youtu.be/pVy62u48rSI)
+
+
+---
+
+
 ## 🛡 Security Notes
 All health records are encrypted using AES encryption via CryptoJS before uploading.
 
