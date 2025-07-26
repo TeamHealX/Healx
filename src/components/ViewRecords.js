@@ -20,6 +20,7 @@ import {
   FolderOpen,
   Users,
 } from "lucide-react"
+import toast from "react-hot-toast"
 
 const ViewRecords = () => {
   const [records, setRecords] = useState([])
@@ -65,24 +66,45 @@ const ViewRecords = () => {
         setRecords(userRecords)
       } catch (error) {
         console.error("Error fetching records:", error)
-        alert("Failed to fetch records. Please try again.")
+        toast.error("Failed to fetch records. Please try again.")
       }
       setLoading(false)
     }
     fetchRecords()
   }, [user])
+const handleDelete = async (id) => {
+  toast.custom((t) => (
+    <div className="bg-white p-4 rounded shadow-md border border-gray-200 flex flex-col items-start gap-2">
+      <p className="text-sm text-gray-800">Are you sure you want to delete this record?</p>
+      <div className="flex gap-2 mt-2">
+        <button
+          className="px-3 py-1 bg-red-500 text-white text-sm rounded"
+          onClick={async () => {
+            toast.dismiss(t.id); // Close the toast
+            try {
+              await deleteDoc(doc(db, "records", id));
+              setRecords((prev) => prev.filter((r) => r.id !== id));
+              setSelectedIds((prev) => prev.filter((sid) => sid !== id));
+              toast.success("Record deleted");
+            } catch (error) {
+              console.error("Failed to delete record:", error);
+              toast.error("Failed to delete record. Please try again.");
+            }
+          }}
+        >
+          Yes
+        </button>
+        <button
+          className="px-3 py-1 bg-gray-300 text-sm rounded"
+          onClick={() => toast.dismiss(t.id)}
+        >
+          No
+        </button>
+      </div>
+    </div>
+  ));
+};
 
-  const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this record?")) return
-    try {
-      await deleteDoc(doc(db, "records", id))
-      setRecords(records.filter((r) => r.id !== id))
-      setSelectedIds(selectedIds.filter((sid) => sid !== id))
-    } catch (error) {
-      console.error("Failed to delete record:", error)
-      alert("Failed to delete record. Please try again.")
-    }
-  }
 
   const filteredRecords = records.filter((rec) => {
     const lowerSearch = searchTerm.toLowerCase()
@@ -125,7 +147,7 @@ const ViewRecords = () => {
 
   const handleShare = () => {
     if (selectedIds.length === 0) {
-      alert("Please select at least one record to share.")
+      toast.error("Please select at least one record to share.")
       return
     }
     setShowShareModal(true)
@@ -133,11 +155,11 @@ const ViewRecords = () => {
 
   const generateShareLink = async () => {
     if (!pin || pin.trim().length === 0) {
-      alert("Please enter a PIN to protect the link.")
+      toast.error("Please select at least one record to share.")("Please enter a PIN to protect the link.")
       return
     }
     if (pin.trim().length < 4) {
-      alert("PIN must be at least 4 characters long.")
+      toast.error("PIN must be at least 4 characters long.")
       return
     }
     const token = uuidv4()
@@ -151,12 +173,12 @@ const ViewRecords = () => {
         createdAt: Date.now(),
         ownerId: user.uid,
       })
-      const baseUrl = `${window.location.origin}/sharePage/${token}`
+      const baseUrl = ${window.location.origin}/sharePage/${token}
       setShareLink(baseUrl)
       setCopySuccess("")
     } catch (err) {
       console.error("Failed to create share session:", err)
-      alert("Failed to generate share link. Please try again.")
+      toast.error("Failed to generate share link. Please try again.")
     }
   }
 
@@ -182,7 +204,7 @@ const ViewRecords = () => {
     const day = String(date.getDate()).padStart(2, "0")
     const month = String(date.getMonth() + 1).padStart(2, "0")
     const year = date.getFullYear()
-    return `${day}/${month}/${year}`
+    return ${day}/${month}/${year}
   }
 
   const getReportTypeIcon = (type) => {
@@ -279,8 +301,8 @@ const ViewRecords = () => {
                 }`}
               >
                 <div className="flex items-start gap-3">
-                  <div className={`p-2 rounded-lg ${activePatient === "all" ? "bg-emerald-100" : "bg-gray-100"}`}>
-                    <Users className={`w-5 h-5 ${activePatient === "all" ? "text-emerald-600" : "text-gray-500"}`} />
+                  <div className={p-2 rounded-lg ${activePatient === "all" ? "bg-emerald-100" : "bg-gray-100"}}>
+                    <Users className={w-5 h-5 ${activePatient === "all" ? "text-emerald-600" : "text-gray-500"}} />
                   </div>
                   <div className="flex-1 min-w-0">
                     <h3 className="font-medium text-sm">All Records</h3>
@@ -304,15 +326,15 @@ const ViewRecords = () => {
                   }`}
                 >
                   <div className="flex items-start gap-3">
-                    <div className={`p-2 rounded-lg ${activePatient === patient ? "bg-emerald-100" : "bg-gray-100"}`}>
+                    <div className={p-2 rounded-lg ${activePatient === patient ? "bg-emerald-100" : "bg-gray-100"}}>
                       <span className="text-lg">{getPatientIcon(patient)}</span>
                     </div>
                     <div className="flex-1 min-w-0">
                       <h3 className="font-medium text-sm capitalize">
-                        {patient === "Self" ? "My Records" : `${patient}'s Records`}
+                        {patient === "Self" ? "My Records" : ${patient}'s Records}
                       </h3>
                       <p className="text-xs text-gray-500 mt-1">
-                        {patient === "Self" ? "Your personal records" : `Medical records for ${patient}`}
+                        {patient === "Self" ? "Your personal records" : Medical records for ${patient}}
                       </p>
                       <span className="inline-block mt-2 px-2 py-1 text-xs bg-gray-200 rounded-full">
                         {getRecordCountForPatient(patient)} records
@@ -351,7 +373,7 @@ const ViewRecords = () => {
                             ? "All Medical Records"
                             : activePatient === "Self"
                               ? "My Records"
-                              : `${activePatient}'s Records`}
+                              : ${activePatient}'s Records}
                         </h2>
                         <p className="text-gray-600">
                           {filteredRecords.length} record{filteredRecords.length !== 1 ? "s" : ""} found
@@ -490,7 +512,7 @@ const ViewRecords = () => {
 
                               <div className="flex flex-wrap gap-2">
                                 <Link
-                                  to={`/viewfile/${rec.id}`}
+                                  to={/viewfile/${rec.id}}
                                   className="bg-green-600 text-white px-4 py-2 rounded text-sm hover:bg-green-700 transition-colors"
                                 >
                                   View Report
