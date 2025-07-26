@@ -77,13 +77,14 @@ const Login = () => {
 
           {error && <p className="text-red-600 text-center">{error}</p>}
 
-          <button
-            type="submit"
-            disabled={loading}
-            className={w-full ${loading ? 'bg-green-400' : 'bg-green-600 hover:bg-green-700'} text-white font-semibold py-3 rounded-full shadow}
-          >
-            {loading ? 'Logging in...' : 'Sign In'}
-          </button>
+         <button
+  type="submit"
+  disabled={loading}
+  className={`w-full ${loading ? 'bg-green-400' : 'bg-green-600 hover:bg-green-700'} text-white font-semibold py-3 rounded-full shadow`}
+>
+  {loading ? 'Logging in...' : 'Sign In'}
+</button>
+
         </form>
         <p className="mt-6 text-center text-gray-600">
           Don't have an account?{' '}
