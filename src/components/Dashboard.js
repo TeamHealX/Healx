@@ -1,23 +1,36 @@
-"use client"
-import toast from 'react-hot-toast'
-import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { useNavigate } from "react-router-dom"
-import { User, LogOut, Settings, FolderOpen, ChevronDown, Upload, Heart } from "lucide-react"
+"use client";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { auth } from "../firebase";
+import {
+  User,
+  LogOut,
+  Settings,
+  FolderOpen,
+  ChevronDown,
+  Upload,
+  Heart,
+} from "lucide-react";
 
 const Dashboard = () => {
-  const navigate = useNavigate()
-  const [profileMenuOpen, setProfileMenuOpen] = useState(false)
+  const navigate = useNavigate();
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+
+  // ✅ Get current user and clean name
+  const user = auth.currentUser;
+  const emailPrefix = user?.email?.split("@")[0];
+  const displayName = user?.displayName || emailPrefix || "User";
 
   const handleLogout = () => {
-    
-    toast.success("Logged out!")
-    navigate("/")
-  }
+    toast.success("Logged out!");
+    navigate("/");
+  };
 
   const toggleProfileMenu = () => {
-    setProfileMenuOpen((prev) => !prev)
-  }
+    setProfileMenuOpen((prev) => !prev);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-teal-50 font-sans flex flex-col scroll-smooth">
@@ -36,11 +49,16 @@ const Dashboard = () => {
             <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-400 rounded-full animate-pulse" />
           </div>
           <div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900">HealX Dashboard</h1>
-            <p className="text-sm text-gray-600 hidden sm:block">Your health, secured</p>
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900">
+              HealX Dashboard
+            </h1>
+            <p className="text-sm text-gray-600 hidden sm:block">
+              Your health, secured
+            </p>
           </div>
         </motion.div>
 
+        {/* Profile Menu */}
         <nav className="relative">
           <button
             onClick={toggleProfileMenu}
@@ -52,9 +70,11 @@ const Dashboard = () => {
             <div className="w-9 h-9 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full flex items-center justify-center shadow-md">
               <User className="w-5 h-5 text-white" />
             </div>
-            <span className="hidden sm:block">User</span>
+            <span className="hidden sm:block">{displayName}</span>
             <ChevronDown
-              className={transition-transform duration-300 w-4 h-4 ${profileMenuOpen ? "rotate-180" : "rotate-0"}}
+              className={`transition-transform duration-300 w-4 h-4 ${
+                profileMenuOpen ? "rotate-180" : "rotate-0"
+              }`}
             />
           </button>
 
@@ -73,8 +93,8 @@ const Dashboard = () => {
                   <li>
                     <button
                       onClick={() => {
-                        setProfileMenuOpen(false)
-                        navigate("/settings")
+                        setProfileMenuOpen(false);
+                        navigate("/settings");
                       }}
                       className="w-full text-left px-4 py-3 text-gray-700 hover:bg-gray-50 hover:text-gray-900 flex items-center gap-3 rounded-xl transition-colors"
                       role="menuitem"
@@ -86,8 +106,8 @@ const Dashboard = () => {
                   <li>
                     <button
                       onClick={() => {
-                        setProfileMenuOpen(false)
-                        handleLogout()
+                        setProfileMenuOpen(false);
+                        handleLogout();
                       }}
                       className="w-full text-left px-4 py-3 text-red-600 hover:bg-red-50 hover:text-red-700 flex items-center gap-3 rounded-xl transition-colors"
                       role="menuitem"
@@ -105,7 +125,6 @@ const Dashboard = () => {
 
       {/* Main Content */}
       <main className="flex-grow max-w-7xl mx-auto px-6 sm:px-12 py-16">
-        {/* Welcome Section */}
         <motion.section
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -114,17 +133,17 @@ const Dashboard = () => {
         >
           <h1 className="text-4xl sm:text-6xl font-extrabold text-gray-900 mb-6 leading-tight tracking-tight">
             Welcome back,{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600 underline decoration-emerald-300 decoration-4">
-              User!
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600">
+              {displayName}
             </span>
           </h1>
           <p className="text-gray-600 text-lg sm:text-xl max-w-3xl mx-auto leading-relaxed">
-            Manage your health records securely and share them with your doctors instantly. Your privacy is our
-            priority.
+            Manage your health records securely and share them with your doctors
+            instantly. Your privacy is our priority.
           </p>
         </motion.section>
 
-        {/* Quick Access Cards */}
+        {/* Cards */}
         <section className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {[
             {
@@ -132,7 +151,6 @@ const Dashboard = () => {
               title: "Upload Records",
               desc: "Add new medical records easily and securely.",
               onClick: () => navigate("/upload"),
-              gradient: "from-emerald-500 to-teal-600",
               bgGradient: "from-emerald-50 to-teal-50",
               iconBg: "bg-emerald-100",
               iconColor: "text-emerald-600",
@@ -142,7 +160,6 @@ const Dashboard = () => {
               title: "View Records",
               desc: "Browse, search, and organize your medical files.",
               onClick: () => navigate("/records"),
-              gradient: "from-blue-500 to-indigo-600",
               bgGradient: "from-blue-50 to-indigo-50",
               iconBg: "bg-blue-100",
               iconColor: "text-blue-600",
@@ -152,7 +169,6 @@ const Dashboard = () => {
               title: "Settings",
               desc: "Manage your profile, privacy, and preferences.",
               onClick: () => navigate("/settings"),
-              gradient: "from-purple-500 to-pink-600",
               bgGradient: "from-purple-50 to-pink-50",
               iconBg: "bg-purple-100",
               iconColor: "text-purple-600",
@@ -173,14 +189,14 @@ const Dashboard = () => {
               tabIndex={0}
               onClick={onClick}
               onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") onClick()
+                if (e.key === "Enter" || e.key === " ") onClick();
               }}
               role="button"
               aria-label={title}
-              className={cursor-pointer rounded-3xl p-8 bg-gradient-to-br ${bgGradient} border border-white/50 shadow-lg hover:shadow-2xl flex flex-col items-center text-center transition-all duration-300 outline-none focus:ring-4 focus:ring-emerald-300 group backdrop-blur-sm}
+              className={`cursor-pointer rounded-3xl p-8 bg-gradient-to-br ${bgGradient} border border-white/50 shadow-lg hover:shadow-2xl flex flex-col items-center text-center transition-all duration-300 outline-none focus:ring-4 focus:ring-emerald-300 group backdrop-blur-sm`}
             >
-              <div className={p-4 rounded-2xl ${iconBg} mb-6 group-hover:scale-110 transition-transform shadow-md}>
-                <Icon className={${iconColor} w-8 h-8} />
+              <div className={`p-4 rounded-2xl ${iconBg} mb-6 group-hover:scale-110 transition-transform shadow-md`}>
+                <Icon className={`${iconColor} w-8 h-8`} />
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-gray-700 transition-colors">
                 {title}
@@ -198,7 +214,7 @@ const Dashboard = () => {
         </div>
       </footer>
     </div>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;
