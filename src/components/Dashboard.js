@@ -1,5 +1,5 @@
 "use client"
-
+import toast from 'react-hot-toast'
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useNavigate } from "react-router-dom"
@@ -10,8 +10,8 @@ const Dashboard = () => {
   const [profileMenuOpen, setProfileMenuOpen] = useState(false)
 
   const handleLogout = () => {
-    // TODO: Add your logout logic here
-    alert("Logged out!")
+    
+    toast.success("Logged out!")
     navigate("/")
   }
 
@@ -54,7 +54,7 @@ const Dashboard = () => {
             </div>
             <span className="hidden sm:block">User</span>
             <ChevronDown
-              className={`transition-transform duration-300 w-4 h-4 ${profileMenuOpen ? "rotate-180" : "rotate-0"}`}
+              className={transition-transform duration-300 w-4 h-4 ${profileMenuOpen ? "rotate-180" : "rotate-0"}}
             />
           </button>
 
@@ -177,10 +177,10 @@ const Dashboard = () => {
               }}
               role="button"
               aria-label={title}
-              className={`cursor-pointer rounded-3xl p-8 bg-gradient-to-br ${bgGradient} border border-white/50 shadow-lg hover:shadow-2xl flex flex-col items-center text-center transition-all duration-300 outline-none focus:ring-4 focus:ring-emerald-300 group backdrop-blur-sm`}
+              className={cursor-pointer rounded-3xl p-8 bg-gradient-to-br ${bgGradient} border border-white/50 shadow-lg hover:shadow-2xl flex flex-col items-center text-center transition-all duration-300 outline-none focus:ring-4 focus:ring-emerald-300 group backdrop-blur-sm}
             >
-              <div className={`p-4 rounded-2xl ${iconBg} mb-6 group-hover:scale-110 transition-transform shadow-md`}>
-                <Icon className={`${iconColor} w-8 h-8`} />
+              <div className={p-4 rounded-2xl ${iconBg} mb-6 group-hover:scale-110 transition-transform shadow-md}>
+                <Icon className={${iconColor} w-8 h-8} />
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-gray-700 transition-colors">
                 {title}
