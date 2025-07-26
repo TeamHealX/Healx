@@ -204,7 +204,7 @@ const handleDelete = async (id) => {
     const day = String(date.getDate()).padStart(2, "0")
     const month = String(date.getMonth() + 1).padStart(2, "0")
     const year = date.getFullYear()
-    return ${day}/${month}/${year}
+    return '${day}/${month}/${year}';
   }
 
   const getReportTypeIcon = (type) => {
@@ -301,8 +301,8 @@ const handleDelete = async (id) => {
                 }`}
               >
                 <div className="flex items-start gap-3">
-                  <div className={p-2 rounded-lg ${activePatient === "all" ? "bg-emerald-100" : "bg-gray-100"}}>
-                    <Users className={w-5 h-5 ${activePatient === "all" ? "text-emerald-600" : "text-gray-500"}} />
+                  <div className={`p-2 rounded-lg ${activePatient === "all" ? "bg-emerald-100" : "bg-gray-100"}`}>
+                    <Users className={`w-5 h-5 ${activePatient === "all" ? "text-emerald-600" : "text-gray-500"}`} />
                   </div>
                   <div className="flex-1 min-w-0">
                     <h3 className="font-medium text-sm">All Records</h3>
@@ -326,15 +326,15 @@ const handleDelete = async (id) => {
                   }`}
                 >
                   <div className="flex items-start gap-3">
-                    <div className={p-2 rounded-lg ${activePatient === patient ? "bg-emerald-100" : "bg-gray-100"}}>
+                    <div className={`p-2 rounded-lg ${activePatient === patient ? "bg-emerald-100" : "bg-gray-100"}`}>
                       <span className="text-lg">{getPatientIcon(patient)}</span>
                     </div>
                     <div className="flex-1 min-w-0">
                       <h3 className="font-medium text-sm capitalize">
-                        {patient === "Self" ? "My Records" : ${patient}'s Records}
+                        {patient === "Self" ? "My Records" : `${patient}'s Records`}
                       </h3>
                       <p className="text-xs text-gray-500 mt-1">
-                        {patient === "Self" ? "Your personal records" : Medical records for ${patient}}
+                        {patient === "Self" ? "Your personal records" : `Medical records for ${patient}`}
                       </p>
                       <span className="inline-block mt-2 px-2 py-1 text-xs bg-gray-200 rounded-full">
                         {getRecordCountForPatient(patient)} records
@@ -373,7 +373,7 @@ const handleDelete = async (id) => {
                             ? "All Medical Records"
                             : activePatient === "Self"
                               ? "My Records"
-                              : ${activePatient}'s Records}
+                              : `${activePatient}'s Records`}
                         </h2>
                         <p className="text-gray-600">
                           {filteredRecords.length} record{filteredRecords.length !== 1 ? "s" : ""} found
@@ -512,7 +512,7 @@ const handleDelete = async (id) => {
 
                               <div className="flex flex-wrap gap-2">
                                 <Link
-                                  to={/viewfile/${rec.id}}
+                                  to={`/viewfile/${rec.id}`}
                                   className="bg-green-600 text-white px-4 py-2 rounded text-sm hover:bg-green-700 transition-colors"
                                 >
                                   View Report
