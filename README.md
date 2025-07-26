@@ -33,21 +33,16 @@ HealX is a modern web application designed to help users securely upload, encryp
 | Encryption      | CryptoJS (AES encryption) |
 | Routing         | React Router DOM          |
 
----
-
 ## 📂 Project Structure
 
 HealX/
-│
 ├── .github/
 │   └── workflows/
 │       ├── firebase-hosting-merge.yml
 │       └── firebase-hosting-pull-request.yml
-│
 ├── public/
 │   ├── _redirects
 │   └── index.html
-│
 ├── src/
 │   ├── components/          # Reusable UI components
 │   ├── pages/               # Main views/pages
@@ -56,7 +51,6 @@ HealX/
 │   ├── firebase.js          # Firebase config and initialization
 │   ├── index.css            # Global styles (Tailwind CSS)
 │   └── index.js             # React app entry point
-│
 ├── .firebaserc              # Firebase project config
 ├── .gitignore
 ├── README.md
@@ -66,8 +60,6 @@ HealX/
 ├── postcss.config.js        # PostCSS config for Tailwind CSS
 └── tailwind.config.js       # Tailwind CSS config
 
-
----
 
 ## ⚙️ Setup Instructions
 
