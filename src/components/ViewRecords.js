@@ -173,7 +173,7 @@ const handleDelete = async (id) => {
         createdAt: Date.now(),
         ownerId: user.uid,
       })
-      const baseUrl = ${window.location.origin}/sharePage/${token}
+      const baseUrl = `${window.location.origin}/sharePage/${token}`;
       setShareLink(baseUrl)
       setCopySuccess("")
     } catch (err) {
