@@ -35,9 +35,9 @@ HealX is a modern web application designed to help users securely upload, encryp
 
 ---
 
-    ## 📂 Project Structure
+## 📂 Project Structure
 
-HealX/
+```HealX/
 ├── .github/
 │   └── workflows/
 │       ├── firebase-hosting-merge.yml
@@ -61,7 +61,7 @@ HealX/
 ├── package.json
 ├── postcss.config.js        # PostCSS config for Tailwind CSS
 └── tailwind.config.js       # Tailwind CSS config
-
+```
 ---
 
 ## ⚙️ Setup Instructions
