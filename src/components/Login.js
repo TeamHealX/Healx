@@ -7,6 +7,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 
 const Login = () => {
   const [email, setEmail] = useState('');
+  
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -79,7 +80,7 @@ const Login = () => {
           <button
             type="submit"
             disabled={loading}
-            className={`w-full ${loading ? 'bg-green-400' : 'bg-green-600 hover:bg-green-700'} text-white font-semibold py-3 rounded-full shadow`}
+            className={w-full ${loading ? 'bg-green-400' : 'bg-green-600 hover:bg-green-700'} text-white font-semibold py-3 rounded-full shadow}
           >
             {loading ? 'Logging in...' : 'Sign In'}
           </button>
