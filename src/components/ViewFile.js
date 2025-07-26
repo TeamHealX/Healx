@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import CryptoJS from "crypto-js"; // 🔐 AES for decryption
+import toast from "react-hot-toast";
 
 const SECRET_KEY = process.env.REACT_APP_SECRET_KEY; // ✅ Uses env key
 
@@ -30,22 +31,22 @@ const ViewFile = () => {
                 data.fileData = decryptedData;
               } else {
                 console.warn(
-                  "⚠️ Decryption produced empty string. Possibly not encrypted."
+                  "⚠ Decryption produced empty string. Possibly not encrypted."
                 );
               }
             } catch (err) {
               console.error("❌ Decryption error:", err);
-              alert("Failed to decrypt file.");
+              toast.error("Failed to decrypt file.");
             }
           }
 
           setRecord({ id: docSnap.id, ...data });
         } else {
-          alert("❌ Record not found!");
+          toast.error("❌ Record not found!");
         }
       } catch (error) {
         console.error("Error fetching record:", error);
-        alert("Failed to load record.");
+        toast.error("Failed to load record.");
       }
       setLoading(false);
     };
@@ -134,7 +135,7 @@ const ViewFile = () => {
           </>
         ) : (
           <p className="text-center text-red-600 font-semibold">
-            ⚠️ File data is not available.
+            ⚠ File data is not available.
           </p>
         )}
       </div>
@@ -154,7 +155,7 @@ const ViewFile = () => {
           }`}
           onClick={(e) => !record.fileData && e.preventDefault()}
         >
-          ⬇️ Download File
+          ⬇ Download File
         </a>
       </div>
     </div>
