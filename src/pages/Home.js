@@ -58,9 +58,11 @@ const Home = () => {
               Get Started <FaArrowRight className="inline ml-2" />
             </button>
           </Link>
+          <a href='https://drive.google.com/file/d/1N5fKf7O5T2J14-YOYisax3Yi1OdIn6-L/view?usp=drivesdk'>
           <button className="border-2 border-green-700 text-green-700 px-8 py-3 rounded-full font-medium hover:bg-green-100 text-lg">
             Live Demo
           </button>
+          </a>
         </motion.div>
       </main>
 
