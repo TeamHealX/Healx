@@ -155,7 +155,7 @@ const handleDelete = async (id) => {
 
   const generateShareLink = async () => {
     if (!pin || pin.trim().length === 0) {
-      toast.error("Please select at least one record to share.")("Please enter a PIN to protect the link.")
+      toast.error("Please select at least one record to share.")
       return
     }
     if (pin.trim().length < 4) {
