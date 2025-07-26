@@ -2,8 +2,15 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { db, auth } from "../firebase";
+import {
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
+
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import CryptoJS from "crypto-js";
+import toast from "react-hot-toast";
 
 const Upload = () => {
   const [file, setFile] = useState(null);
@@ -27,46 +34,59 @@ const Upload = () => {
   };
 
   const handleUpload = async (e) => {
-    e.preventDefault();
-    if (!file) return alert("Please select a file");
-    if (!reportType.trim()) return alert("Please enter the report type");
-    if (!patient) return alert("Please select the patient");
-    if (!reportDate.trim()) return alert("Please enter the date of report");
+  e.preventDefault();
 
-    try {
-      const userId = auth.currentUser?.uid;
-      if (!userId) return alert("User not logged in");
+  if (!file) return toast.error("Please select a file");
+  if (!reportType.trim()) return toast.error("Please enter the report type");
+  if (!patient) return toast.error("Please select the patient");
+  if (!reportDate.trim()) return toast.error("Please enter the date of report");
 
-      const base64String = await fileToBase64(file);
+  try {
+    const userId = auth.currentUser?.uid;
+    if (!userId) return toast.error("User not logged in");
 
-      // 🔐 Encrypt the base64 string
-      const encryptedData = CryptoJS.AES.encrypt(
-        base64String,
-        SECRET_KEY
-      ).toString();
+    // 🔍 Check for duplicates
+    const q = query(
+      collection(db, "records"),
+      where("userId", "==", userId),
+      where("name", "==", file.name),
+      where("reportDate", "==", reportDate)
+    );
 
-      await addDoc(collection(db, "records"), {
-        userId,
-        name: file.name,
-        fileData: encryptedData,
-        reportType: reportType.trim(),
-        patient: patient,
-        reportDate,
-        encrypted: true, // ✅ Important!
-        createdAt: serverTimestamp(),
-      });
+    const snapshot = await getDocs(q);
 
-      alert("Uploaded successfully!");
-      setFile(null);
-      setReportType("");
-      setPatient("");
-      setReportDate("");
-      e.target.reset();
-    } catch (error) {
-      console.error("Upload failed:", error);
-      alert("Failed to upload. Please try again.");
+    if (!snapshot.empty) {
+      toast.error("This file already exists for the selected date.");
+      return;
     }
-  };
+
+    const base64String = await fileToBase64(file);
+
+    // 🔐 Encrypt the base64 string
+    const encryptedData = CryptoJS.AES.encrypt(base64String, SECRET_KEY).toString();
+
+    await addDoc(collection(db, "records"), {
+      userId,
+      name: file.name,
+      fileData: encryptedData,
+      reportType: reportType.trim(),
+      patient,
+      reportDate,
+      encrypted: true,
+      createdAt: serverTimestamp(),
+    });
+
+    toast.success("Uploaded successfully!");
+    setFile(null);
+    setReportType("");
+    setPatient("");
+    setReportDate("");
+    e.target.reset();
+  } catch (error) {
+    console.error("Upload failed:", error);
+    toast.error("Failed to upload. Please try again.");
+  }
+};
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-white flex flex-col items-center px-6 py-16 relative">
