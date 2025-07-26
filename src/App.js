@@ -8,10 +8,13 @@ import ViewRecords from "./components/ViewRecords";
 import Settings from "./components/Settings";
 import SharePage from "./components/Share";
 import ViewFile from "./components/ViewFile";
+import { Toaster } from 'react-hot-toast'
 
 function App() {
   return (
+    
     <Router>
+      <Toaster position="top-right" reverseOrder={false} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
