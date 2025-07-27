@@ -129,6 +129,25 @@ Open http://localhost:3000 in your browser.
 ## 🛡 Security Notes
 All health records are encrypted using AES encryption via CryptoJS before uploading.
 
+The app currently uses a static encryption key stored in the .env file for MVP purposes:
+
 Encryption keys must be stored securely using environment variables (.env) and never committed to source control.
 
+This is a temporary solution. For production, this will be replaced with per-user encryption keys.
+
 Firestore security rules should be configured to restrict data access only to authorized users.
+
+
+---
+
+##🔄 Later Improvements (Post-MVP)
+To ensure privacy and scalability in a production environment, the following upgrades are planned:
+
+🔐 Per-user Encryption Keys
+Each user will have a unique encryption key, derived or securely stored, so that only they (and authorized share recipients) can decrypt their files.
+
+🔑 Key Derivation or Secure Key Management
+Implement key derivation (e.g., using user password + salt with PBKDF2 or Argon2) or integrate a secure key vault to protect keys.
+
+🔏 Zero-Knowledge Access
+Move towards a zero-knowledge architecture where even the backend cannot decrypt user records.
