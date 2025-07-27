@@ -140,7 +140,7 @@ Firestore security rules should be configured to restrict data access only to au
 
 ---
 
-##🔄 Later Improvements (Post-MVP)
+## 🔄 Later Improvements (Post-MVP)
 To ensure privacy and scalability in a production environment, the following upgrades are planned:
 
 🔐 Per-user Encryption Keys
